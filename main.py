@@ -29,11 +29,6 @@ class Short(Model):
     class Meta:
         database = DB
 
-def check_and_create_tables():
-    DB.connect()
-    if not Short.table_exists():
-        DB.create_tables([Short])
-
 
 def html(content):
     return u"""
@@ -88,6 +83,11 @@ def use_db(f):
         DB.close()
         return f_return
     return func
+
+@use_db
+def check_and_create_tables():
+    if not Short.table_exists():
+        DB.create_tables([Short])
 
 
 class index:
